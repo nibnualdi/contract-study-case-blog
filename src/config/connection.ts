@@ -1,4 +1,7 @@
 import { Dialect, Sequelize } from "sequelize";
+import dotenv from "dotenv";
+
+dotenv.config();
 
 const databaseName = process.env.DATABASE_NAME as string;
 const userNameDatabase = process.env.USERNAME_DATABASE || "root";
