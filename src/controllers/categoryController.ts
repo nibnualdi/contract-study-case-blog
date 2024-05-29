@@ -26,4 +26,19 @@ const create = async (req: Request, res: Response) => {
   }
 };
 
-export { create };
+const getAll = async (_: any, res: Response) => {
+  try {
+    const categories = await Categories.findAll();
+
+    res.status(200).json({
+      code: 200,
+      message: `${categories.length} data sudah diterima`,
+      count: categories.length,
+      data: categories,
+    });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
+export { create, getAll };
