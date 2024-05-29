@@ -54,6 +54,4 @@ Categories.init(
   { sequelize, modelName: "Categories" }
 );
 
-Categories.belongsToMany(Posts, { through: PostCategories, uniqueKey: "categoryId" });
-
 export default Categories;

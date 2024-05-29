@@ -75,6 +75,6 @@ Posts.init(
 );
 
 Posts.hasMany(Files, { foreignKey: "thumbnail", onDelete: "CASCADE" });
-Posts.belongsToMany(Categories, { through: PostCategories, uniqueKey: "postId" });
+Posts.belongsToMany(Categories, { through: PostCategories, foreignKey: "postId", otherKey: "categoryId" });
 
 export default Posts;
