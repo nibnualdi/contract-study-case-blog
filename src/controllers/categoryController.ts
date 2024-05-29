@@ -77,4 +77,18 @@ const update = async (req: Request, res: Response) => {
   }
 };
 
-export { create, getAll, getById, update };
+const deleteData = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  try {
+    await Categories.destroy({ where: { id } });
+    res.status(200).json({
+      code: 200,
+      message: "Data berhasil dihapus",
+    });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
+export { create, getAll, getById, update, deleteData };
