@@ -26,7 +26,9 @@ const create = async (req: Request, res: Response) => {
   }
 };
 
-const getAll = async (_: any, res: Response) => {
+const getAll = async (req: Request, res: Response) => {
+  console.log(req.params,"get")
+
   try {
     const categories = await Categories.findAll();
 
@@ -41,4 +43,20 @@ const getAll = async (_: any, res: Response) => {
   }
 };
 
-export { create, getAll };
+const getById = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  try {
+    const category = await Categories.findAll({ where: { id } });
+
+    res.status(200).json({
+      code: 200,
+      message: "Data sudah diterima",
+      data: category[0],
+    });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
+export { create, getAll, getById };
