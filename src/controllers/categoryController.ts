@@ -27,7 +27,7 @@ const create = async (req: Request, res: Response) => {
 };
 
 const getAll = async (req: Request, res: Response) => {
-  console.log(req.params,"get")
+  console.log(req.params, "get");
 
   try {
     const categories = await Categories.findAll();
@@ -59,4 +59,22 @@ const getById = async (req: Request, res: Response) => {
   }
 };
 
-export { create, getAll, getById };
+const update = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const title = req.body.title;
+
+  try {
+    await Categories.update({ title }, { where: { id } });
+    const categoryUpdated = await Categories.findAll({ where: { id } });
+
+    res.status(200).json({
+      code: 200,
+      message: "Data berhasil diperbarui",
+      data: categoryUpdated[0],
+    });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
+export { create, getAll, getById, update };
