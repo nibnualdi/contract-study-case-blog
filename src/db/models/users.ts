@@ -9,7 +9,7 @@ type UsersAttributes = {
   role: "Super Admin" | "Creator";
   password: string;
   status: "Active" | "Suspend";
-  avatar: typeof DataTypes.UUID;
+  avatar: CreationOptional<typeof DataTypes.UUID>;
   createdAt: CreationOptional<Date>;
   updatedAt: CreationOptional<Date>;
   deletedAt: CreationOptional<Date>;
@@ -18,7 +18,7 @@ type UsersAttributes = {
 // put the attribute that's optional here
 type UsersCreationAttributes = Optional<
   UsersAttributes,
-  "id" | "createdAt" | "updatedAt" | "deletedAt"
+  "id" | "avatar" | "createdAt" | "updatedAt" | "deletedAt"
 >;
 
 class Users extends Model<UsersAttributes, UsersCreationAttributes> {
@@ -28,7 +28,7 @@ class Users extends Model<UsersAttributes, UsersCreationAttributes> {
   declare role: "Super Admin" | "Creator";
   declare password: string;
   declare status: "Active" | "Suspend";
-  declare avatar: typeof DataTypes.UUID;
+  declare avatar: CreationOptional<typeof DataTypes.UUID>;
   declare createdAt: CreationOptional<Date>;
   declare updatedAt: CreationOptional<Date>;
   declare deletedAt: CreationOptional<Date>;
