@@ -27,8 +27,6 @@ const create = async (req: Request, res: Response) => {
 };
 
 const getAll = async (req: Request, res: Response) => {
-  console.log(req.params, "get");
-
   try {
     const categories = await Categories.findAll();
 
