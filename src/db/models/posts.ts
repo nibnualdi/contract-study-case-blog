@@ -1,5 +1,5 @@
 import { CreationOptional, DataTypes, Model, Optional, Sequelize } from "sequelize";
-import sequelize from "../../config/database";
+import sequelize from "../../config/connection";
 import Files from "./files";
 import Categories from "./categories";
 import PostCategories from "./postcategories";
