@@ -5,16 +5,18 @@ import { NullishPropertiesOf } from "sequelize/types/utils";
 import { AbstractDataTypeConstructor } from "sequelize";
 import Categories from "../db/models/categories";
 
+type postCategory = Omit<
+  PostCategoriesCreationAttributes,
+  NullishPropertiesOf<PostCategoriesCreationAttributes>
+>[];
+
 const create = async (req: Request, res: Response) => {
   const title = req.body.title;
   const description = req.body.description;
   const status = req.body.status;
   const categoryId: AbstractDataTypeConstructor[] = req.body.categoryId;
   const slug = title.split(" ").join("-");
-  const postCategoriesArr: Omit<
-    PostCategoriesCreationAttributes,
-    NullishPropertiesOf<PostCategoriesCreationAttributes>
-  >[] = [];
+  const postCategoriesArr: postCategory = [];
 
   try {
     const post = await (
@@ -119,4 +121,28 @@ const getById = async (req: Request, res: Response) => {
   }
 };
 
-export { create, getAll, getBySlug, getById };
+const update = async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const categoryIds: postCategory = req.body.categoryIds;
+  const { title, description, status } = req.body;
+  let obj: object = {};
+
+  if (title) Object.assign(obj, { title });
+  if (description) Object.assign(obj, { description });
+  if (categoryIds.length) Object.assign(obj, { categoryIds });
+  if (status) Object.assign(obj, { status });
+
+  try {
+    await Posts.update(obj, { where: { id } });
+    const postUpdated = await Posts.findAll({ where: { id } });
+    res.status(200).json({
+      code: 200,
+      message: "Data berhasil diperbarui",
+      data: postUpdated,
+    });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
+export { create, getAll, getBySlug, getById, update };
