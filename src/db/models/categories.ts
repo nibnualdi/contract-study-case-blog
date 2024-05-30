@@ -1,7 +1,5 @@
 import { CreationOptional, DataTypes, Model, Optional, Sequelize } from "sequelize";
 import sequelize from "../../config/connection";
-import Posts from "./posts";
-import PostCategories from "./postcategories";
 
 export type CategoriesAttributes = {
   id: CreationOptional<typeof DataTypes.UUID>;
