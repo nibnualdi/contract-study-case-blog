@@ -73,4 +73,27 @@ const getAll = async (req: Request, res: Response) => {
   }
 };
 
-export { create, getAll };
+const getBySlug = async (req: Request, res: Response) => {
+  const slug = req.params.slug;
+
+  try {
+    const post = await Posts.findOne({
+      include: [
+        {
+          model: Categories,
+        },
+      ],
+      where: { slug },
+    });
+
+    res.status(200).json({
+      code: 200,
+      message: "Data sudah diterima",
+      data: post,
+    });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
+export { create, getAll, getBySlug };
