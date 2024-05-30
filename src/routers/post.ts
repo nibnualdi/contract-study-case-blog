@@ -1,6 +1,12 @@
 import express from "express";
-import { create, getAll, getById, getBySlug, update } from "../controllers/postController";
-import { deleteData } from "../controllers/userController";
+import {
+  create,
+  deleteData,
+  getAll,
+  getById,
+  getBySlug,
+  update,
+} from "../controllers/postController";
 import { creatorOnly } from "../middleware/authorization";
 
 const router = express.Router();
