@@ -8,7 +8,7 @@ type PostsAttributes = {
   id: CreationOptional<typeof DataTypes.UUID>;
   title: string;
   description: typeof DataTypes.TEXT;
-  thumbnail: typeof DataTypes.UUID;
+  thumbnail: CreationOptional<typeof DataTypes.UUID>;
   status: "Draft" | "Published";
   slug: string;
   createdAt: CreationOptional<Date>;
@@ -19,14 +19,14 @@ type PostsAttributes = {
 // put the attribute that's optional here
 type PostsCreationAttributes = Optional<
   PostsAttributes,
-  "id" | "createdAt" | "updatedAt" | "deletedAt"
+  "id" | "thumbnail" | "createdAt" | "updatedAt" | "deletedAt"
 >;
 
 class Posts extends Model<PostsAttributes, PostsCreationAttributes> {
   declare id: CreationOptional<typeof DataTypes.UUID>;
   declare title: string;
   declare description: typeof DataTypes.TEXT;
-  declare thumbnail: typeof DataTypes.UUID;
+  declare thumbnail: CreationOptional<typeof DataTypes.UUID>;
   declare status: "Draft" | "Published";
   declare slug: string;
   declare createdAt: CreationOptional<Date>;
@@ -75,6 +75,10 @@ Posts.init(
 );
 
 Posts.hasMany(Files, { foreignKey: "thumbnail", onDelete: "CASCADE" });
-Posts.belongsToMany(Categories, { through: PostCategories, foreignKey: "postId", otherKey: "categoryId" });
+Posts.belongsToMany(Categories, {
+  through: PostCategories,
+  foreignKey: "postId",
+  otherKey: "categoryId",
+});
 
 export default Posts;
