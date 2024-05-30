@@ -96,4 +96,27 @@ const getBySlug = async (req: Request, res: Response) => {
   }
 };
 
-export { create, getAll, getBySlug };
+const getById = async (req: Request, res: Response) => {
+  const id = req.params.id;
+
+  try {
+    const post = await Posts.findOne({
+      include: [
+        {
+          model: Categories,
+        },
+      ],
+      where: { id },
+    });
+
+    res.status(200).json({
+      code: 200,
+      message: "Data sudah diterima",
+      data: post,
+    });
+  } catch (error) {
+    res.json({ error });
+  }
+};
+
+export { create, getAll, getBySlug, getById };
