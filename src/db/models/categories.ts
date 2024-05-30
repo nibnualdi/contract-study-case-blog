@@ -3,7 +3,7 @@ import sequelize from "../../config/connection";
 import Posts from "./posts";
 import PostCategories from "./postcategories";
 
-type CategoriesAttributes = {
+export type CategoriesAttributes = {
   id: CreationOptional<typeof DataTypes.UUID>;
   title: string;
   createdAt: CreationOptional<Date>;
@@ -12,7 +12,7 @@ type CategoriesAttributes = {
 };
 
 // put the attribute that's optional here
-type CategoriesCreationAttributes = Optional<
+export type CategoriesCreationAttributes = Optional<
   CategoriesAttributes,
   "id" | "createdAt" | "updatedAt" | "deletedAt"
 >;

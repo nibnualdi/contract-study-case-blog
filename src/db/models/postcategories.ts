@@ -1,7 +1,7 @@
 import { CreationOptional, DataTypes, Model, Optional, Sequelize } from "sequelize";
 import sequelize from "../../config/connection";
 
-type PostCategoriesAttributes = {
+export type PostCategoriesAttributes = {
   id: CreationOptional<typeof DataTypes.UUID>;
   postId: typeof DataTypes.UUID;
   categoryId: typeof DataTypes.UUID;
@@ -11,7 +11,7 @@ type PostCategoriesAttributes = {
 };
 
 // put the attribute that's optional here
-type PostCategoriesCreationAttributes = Optional<
+export type PostCategoriesCreationAttributes = Optional<
   PostCategoriesAttributes,
   "id" | "createdAt" | "updatedAt" | "deletedAt"
 >;

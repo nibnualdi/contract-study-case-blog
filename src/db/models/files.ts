@@ -1,7 +1,7 @@
 import { CreationOptional, DataTypes, Model, Optional, Sequelize } from "sequelize";
 import sequelize from "../../config/connection";
 
-type FilesAttributes = {
+export type FilesAttributes = {
   id: CreationOptional<typeof DataTypes.UUID>;
   fileName: string;
   type: string;
@@ -13,7 +13,7 @@ type FilesAttributes = {
 };
 
 // put the attribute that's optional here
-type FilesCreationAttributes = Optional<
+export type FilesCreationAttributes = Optional<
   FilesAttributes,
   "id" | "createdAt" | "updatedAt" | "deletedAt"
 >;

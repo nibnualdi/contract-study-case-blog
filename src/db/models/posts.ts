@@ -4,7 +4,7 @@ import Files from "./files";
 import Categories from "./categories";
 import PostCategories from "./postcategories";
 
-type PostsAttributes = {
+export type PostsAttributes = {
   id: CreationOptional<typeof DataTypes.UUID>;
   title: string;
   description: typeof DataTypes.TEXT;
@@ -17,7 +17,7 @@ type PostsAttributes = {
 };
 
 // put the attribute that's optional here
-type PostsCreationAttributes = Optional<
+export type PostsCreationAttributes = Optional<
   PostsAttributes,
   "id" | "thumbnail" | "createdAt" | "updatedAt" | "deletedAt"
 >;
