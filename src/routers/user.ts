@@ -1,12 +1,13 @@
 import express from "express";
 import { create, deleteData, getAll, getById, update } from "../controllers/userController";
+import { creatorOnly, superAdminOnly } from "../middleware/authorization";
 
 const router = express.Router();
 
-router.post("/", create);
-router.get("/", getAll);
-router.get("/:id", getById);
+router.post("/", [superAdminOnly], create);
+router.get("/", [superAdminOnly], getAll);
+router.get("/:id", [creatorOnly], getById);
 router.put("/:id", update);
-router.delete("/:id", deleteData);
+router.delete("/:id", [superAdminOnly], deleteData);
 
 export default router;

@@ -8,9 +8,12 @@ import authRouter from "./auth";
 import postRouter from "./post";
 import { getById } from "../controllers/userController";
 
+// middlewares
+import { creatorOnly } from "../middleware/authorization";
+
 const router = express.Router();
 
-router.use("/upload", uploadRouter);
+router.use("/upload", [creatorOnly], uploadRouter);
 router.use("/category", categoryRouter);
 router.use("/user", userRouter);
 router.use("/auth", authRouter);
@@ -18,6 +21,6 @@ router.use("/post", postRouter);
 
 // custom endpoint
 // example http://localhost:3000/v1/startfromhere
-router.get("/profile/:id", getById);
+router.get("/profile/:id", [creatorOnly], getById);
 
 export default router;
