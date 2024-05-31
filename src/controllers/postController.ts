@@ -52,7 +52,7 @@ const getAll = async (req: Request, res: Response) => {
   const offset = (page - 1) * pageSize;
 
   try {
-    const { rows, count } = await Posts.findAndCountAll({
+    const { rows } = await Posts.findAndCountAll({
       include: [
         {
           model: Categories,
@@ -66,8 +66,8 @@ const getAll = async (req: Request, res: Response) => {
 
     res.status(200).json({
       code: 200,
-      message: `${count} data sudah diterima`,
-      count: count,
+      message: `${rows.length} data sudah diterima`,
+      count: rows.length,
       data: rows,
     });
   } catch (error) {
