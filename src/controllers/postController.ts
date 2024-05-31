@@ -56,7 +56,7 @@ const getAll = async (req: Request, res: Response) => {
       include: [
         {
           model: Categories,
-          through: { where: { categoryId: category } },
+          through: { where: category ? { categoryId: category } : {} },
         },
       ],
       offset,
