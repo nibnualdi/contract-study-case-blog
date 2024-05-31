@@ -35,7 +35,7 @@ const getAll = async (req: Request, res: Response) => {
   const offset = (page - 1) * pageSize;
 
   try {
-    const { rows, count } = await Users.findAndCountAll({
+    const { rows } = await Users.findAndCountAll({
       offset,
       limit: pageSize,
       where: fullName ? { fullName } : {},
@@ -43,8 +43,8 @@ const getAll = async (req: Request, res: Response) => {
 
     res.status(200).json({
       code: 200,
-      message: `${count} data sudah diterima`,
-      count: count,
+      message: `${rows.length} data sudah diterima`,
+      count: rows.length,
       data: rows,
     });
   } catch (error) {
