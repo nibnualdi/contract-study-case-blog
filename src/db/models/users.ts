@@ -84,6 +84,6 @@ Users.init(
   }
 );
 
-Users.hasMany(Files, { foreignKey: "avatar", onDelete: "CASCADE" });
+Users.hasMany(Files, { foreignKey: "id", sourceKey: "avatar", onDelete: "CASCADE" });
 
 export default Users;

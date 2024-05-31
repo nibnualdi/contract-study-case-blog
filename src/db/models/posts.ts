@@ -74,7 +74,7 @@ Posts.init(
   { sequelize, modelName: "Posts" }
 );
 
-Posts.hasMany(Files, { foreignKey: "thumbnail", onDelete: "CASCADE" });
+Posts.hasMany(Files, { foreignKey: "id", sourceKey: "thumbnail", onDelete: "CASCADE" });
 Posts.belongsToMany(Categories, {
   through: PostCategories,
   foreignKey: "postId",
