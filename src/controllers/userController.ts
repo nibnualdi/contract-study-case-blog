@@ -110,10 +110,6 @@ const update = async (req: Request, res: Response) => {
     try {
       await Users.update(obj, { where: { id } });
       const userUpdated = await Users.findAll({
-        include: {
-          model: Files,
-          as: "Avatar",
-        },
         where: { id },
       });
       const {
@@ -151,10 +147,6 @@ const update = async (req: Request, res: Response) => {
   try {
     await Users.update(obj, { where: { id } });
     const userUpdated = await Users.findAll({
-      include: {
-        model: Files,
-        as: "Avatar",
-      },
       where: { id },
     });
     const {
