@@ -1,0 +1,108 @@
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      description: "Bearer token to access these api endpoints"
+  schemas:
+    AuthLogin:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+      example:
+        email: muchamadagush@gmail.com
+        password: Agus1234
+    ResponseAuth:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        accessToken:
+          type: string
+        expiresIn:
+          type: integer
+        tokenType:
+          type: string
+        user:
+          type: object
+          properties:
+            id:
+              type: string
+            fullName:
+              type: string
+            email:
+              type: string
+            role:
+              type: string
+            status:
+              type: string
+            avatar:
+              type: string
+            createdAt:
+              type: string
+              format: date
+            updatedAt:
+              type: string
+              format: date
+            deletedAt:
+              type: string
+              format: date
+      example:
+        code: 200
+        message: Data berhasil dibuat
+        accessToken: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjNkMDkzYzQxLTgzY2QtNDI1ZC1hNzQ1LWY1ZWU5OGUzYjc4YiIsImlhdCI6MTY5OTM2MDI4NCwiZXhwIjoxNzAyOTYwMjg0fQ.5HGeWcj3ty6bnF-88Rs-Hnu9DcjpYEprcM3-xLPnFQw,
+        expiresIn: 3600000
+        tokenType: Bearer
+        data:
+          id: 3d093c41-83cd-425d-a745-f5ee98e3b78b
+          fullName: Muchamad Agus Hermawan
+          email: muchamadagush@gmail.com
+          role: Super Admin
+          status: Active
+          avatar: null
+          createdAt: 2023-09-28T08:08:13.000Z
+          updatedAt: 2023-09-28T08:08:13.000Z
+          deletedAt: null
+tags:
+  name: Auth
+  description: The auth API (login & profile)
+/auth/login:
+  post:
+    summary: Login
+    tags: [Auth]
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/AuthLogin"
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResponseAuth"
+      400:
+        description: Bad request
+/profile:
+  get:
+    summary: Show the profile
+    tags: [Auth]
+    security:
+      - bearerAuth: []
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResponseUserWithAvatar"
