@@ -1,0 +1,77 @@
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      description: "Bearer token to access these api endpoints"
+  schemas:
+    ResponseUpload:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            url:
+              type: string
+            filename:
+              type: string
+            type:
+              type: string
+            path:
+              type: string
+            createdAt:
+              type: string
+              format: date
+            updatedAt:
+              type: string
+              format: date
+            deletedAt:
+              type: string
+              format: date
+      example:
+        code: 201
+        message: Data berhasil dibuat
+        data:
+          id: ad0ba235-fa28-4207-b878-5899bcc5407e
+          url: http://localhost:3000/uploads/images/1699363786133-screenshot_20231106_172210.png
+          filename: 3e412587-c64c-4f34-96e4-049c68b5d52b
+          type: image
+          path: /uploads/images/1699363786133-screenshot_20231106_172210.png
+          createdAt: 2023-11-07T13:00:43.495Z
+          updatedAt: 2023-11-07T13:00:43.495Z
+          deletedAt: null
+tags:
+  name: Upload file
+  description: The Upload API for file table used by user table (avatar) & post table (thumbnail)
+paths:
+  /upload:
+    post:
+      summary: Upload a file
+      tags: [Upload]
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                document:
+                  type: string
+                  format: binary
+      security:
+        - bearerAuth: []
+      responses:
+        201:
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ResponseUpload"
+        400:
+          description: Bad request
