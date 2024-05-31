@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Users from "../db/models/users";
+import Files from "../db/models/files";
 
 const create = async (req: Request, res: Response) => {
   const fullName = req.body.fullName;
@@ -36,6 +37,10 @@ const getAll = async (req: Request, res: Response) => {
 
   try {
     const { rows } = await Users.findAndCountAll({
+      include: {
+        model: Files,
+        as: "Avatar",
+      },
       offset,
       limit: pageSize,
       where: fullName ? { fullName } : {},
@@ -56,7 +61,13 @@ const getById = async (req: Request, res: Response) => {
   const id = req.params.id;
 
   try {
-    const user = await Users.findAll({ where: { id } });
+    const user = await Users.findAll({
+      include: {
+        model: Files,
+        as: "Avatar",
+      },
+      where: { id },
+    });
 
     res.status(200).json({
       code: 200,
@@ -98,7 +109,13 @@ const update = async (req: Request, res: Response) => {
     }
     try {
       await Users.update(obj, { where: { id } });
-      const userUpdated = await Users.findAll({ where: { id } });
+      const userUpdated = await Users.findAll({
+        include: {
+          model: Files,
+          as: "Avatar",
+        },
+        where: { id },
+      });
       const {
         id: idUpdated,
         fullName,
@@ -133,7 +150,13 @@ const update = async (req: Request, res: Response) => {
   }
   try {
     await Users.update(obj, { where: { id } });
-    const userUpdated = await Users.findAll({ where: { id } });
+    const userUpdated = await Users.findAll({
+      include: {
+        model: Files,
+        as: "Avatar",
+      },
+      where: { id },
+    });
     const {
       id: idUpdated,
       fullName,
