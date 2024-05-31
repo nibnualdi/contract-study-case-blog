@@ -16,11 +16,6 @@ module.exports = {
       },
       thumbnail: {
         type: Sequelize.UUID,
-        references: {
-          model: "Files",
-          key: "id",
-          as: "thumbnail",
-        },
       },
       status: {
         type: Sequelize.ENUM("Draft", "Published"),

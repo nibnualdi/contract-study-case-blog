@@ -10,19 +10,9 @@ module.exports = {
       },
       postId: {
         type: Sequelize.UUID,
-        references: {
-          model: "Posts",
-          key: "id",
-          as: "postId",
-        },
       },
       categoryId: {
         type: Sequelize.UUID,
-        references: {
-          model: "Categories",
-          key: "id",
-          as: "categoryId",
-        }
       },
       createdAt: {
         type: Sequelize.DATE,
