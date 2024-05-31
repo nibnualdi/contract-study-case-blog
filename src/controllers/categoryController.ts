@@ -27,14 +27,23 @@ const create = async (req: Request, res: Response) => {
 };
 
 const getAll = async (req: Request, res: Response) => {
+  const page: number = Number(req.query.page) || 1;
+  const pageSize: number = Number(req.query.pageSize) || 2;
+  const title: string = (req.query.title as string) || "";
+  const offset = (page - 1) * pageSize;
+
   try {
-    const categories = await Categories.findAll();
+    const { rows } = await Categories.findAndCountAll({
+      offset,
+      limit: pageSize,
+      where: title ? { title } : {},
+    });
 
     res.status(200).json({
       code: 200,
-      message: `${categories.length} data sudah diterima`,
-      count: categories.length,
-      data: categories,
+      message: `${rows.length} data sudah diterima`,
+      count: rows.length,
+      data: rows,
     });
   } catch (error) {
     res.json({ error });
