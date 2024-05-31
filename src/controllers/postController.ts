@@ -14,7 +14,7 @@ const create = async (req: Request, res: Response) => {
   const title = req.body.title;
   const description = req.body.description;
   const status = req.body.status;
-  const categoryId: AbstractDataTypeConstructor[] = req.body.categoryId;
+  const categoryIds: AbstractDataTypeConstructor[] = req.body.categoryIds;
   const slug = title.split(" ").join("-");
   const postCategoriesArr: postCategory = [];
 
@@ -28,7 +28,7 @@ const create = async (req: Request, res: Response) => {
       })
     ).reload();
 
-    categoryId.forEach((item) => {
+    categoryIds.forEach((item) => {
       postCategoriesArr.push({ postId: post.id, categoryId: item });
     });
 
@@ -122,15 +122,21 @@ const getById = async (req: Request, res: Response) => {
 };
 
 const update = async (req: Request, res: Response) => {
-  const id = req.params.id;
-  const categoryIds: postCategory = req.body.categoryIds;
+  const id = req.params.id as unknown as AbstractDataTypeConstructor;
+  const categoryIds: AbstractDataTypeConstructor[] = req.body.categoryIds;
   const { title, description, status } = req.body;
+  const postCategoriesArr: postCategory = [];
   let obj: object = {};
 
   if (title) Object.assign(obj, { title });
   if (description) Object.assign(obj, { description });
-  if (categoryIds.length) Object.assign(obj, { categoryIds });
   if (status) Object.assign(obj, { status });
+  if (categoryIds.length) {
+    categoryIds.forEach((item) => {
+      postCategoriesArr.push({ postId: id, categoryId: item });
+    });
+    await PostCategories.bulkCreate(postCategoriesArr);
+  }
 
   try {
     await Posts.update(obj, { where: { id } });
