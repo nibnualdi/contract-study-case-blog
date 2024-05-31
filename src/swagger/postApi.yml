@@ -1,0 +1,408 @@
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      description: "Bearer token to access these api endpoints"
+  schemas:
+    Post:
+      type: object
+      required:
+        - title
+        - description
+        - categoryIds
+        - status
+      properties:
+        title:
+          type: string
+          description: The title
+        description:
+          type: string
+          description: The description
+        categoryIds:
+          type: array
+          description: The categoryIds
+        status:
+          type: string
+          enum: ["Draft", "Published"]
+          description: The status post
+      example:
+        title: test blog
+        description: description
+        categoryIds: ["21d9925a-0d8a-41ce-be08-dc3ba5612cf9"]
+        status: Published
+    ResponsePost:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            thumbnail:
+              type: string
+            status:
+              type: string
+              enum: ["Draft", "Published"]
+            title:
+              type: string
+            description:
+              type: string
+            slug:
+              type: string
+            createdAt:
+              type: string
+              format: date
+            updatedAt:
+              type: string
+              format: date
+            deletedAt:
+              type: string
+              format: date
+      example:
+        code: 201
+        message: Data berhasil dibuat
+        data:
+          id: ad0ba235-fa28-4207-b878-5899bcc5407e
+          thumbnail: null
+          status: Published
+          title: Lorem ipsum
+          description: description
+          slug: lorem-ipsum
+          createdAt: 2023-11-07T13:00:43.495Z
+          updatedAt: 2023-11-07T13:00:43.495Z
+          deletedAt: null
+    ResponsePostWithCategories:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            thumbnail:
+              type: string
+            status:
+              type: string
+              enum: ["Draft", "Published"]
+            title:
+              type: string
+            description:
+              type: string
+            slug:
+              type: string
+            createdAt:
+              type: string
+              format: date
+            updatedAt:
+              type: string
+              format: date
+            deletedAt:
+              type: string
+              format: date
+            Categories:
+              type: array
+              items:
+                properties:
+                  id:
+                    type: string
+                  title:
+                    type: string
+                  createdAt:
+                    type: string
+                    format: date
+                  updatedAt:
+                    type: string
+                    format: date
+                  deletedAt:
+                    type: string
+                    format: date
+                  PostCategories:
+                    type: object
+                    properties:
+                      id:
+                        type: string
+                      postId:
+                        type: string
+                      categoryId:
+                        type: string
+                      createdAt:
+                        type: string
+                        format: date
+                      updatedAt:
+                        type: string
+                        format: date
+                      deletedAt:
+                        type: string
+                        format: date
+      example:
+        code: 201
+        message: Data berhasil dibuat
+        data:
+          id: ad0ba235-fa28-4207-b878-5899bcc5407e
+          thumbnail: null
+          status: Published
+          title: Lorem ipsum
+          description: description
+          slug: lorem-ipsum
+          createdAt: 2023-11-07T13:00:43.495Z
+          updatedAt: 2023-11-07T13:00:43.495Z
+          deletedAt: null
+          Categories:
+            - id: ad0ba235-fa28-4207-b878-5899bcc5407e
+              title: Lorem ipsum
+              createdAt: 2023-11-07T13:00:43.495Z
+              updatedAt: 2023-11-07T13:00:43.495Z
+              deletedAt: null
+              PostCategories:
+                id: ad0ba235-fa28-4207-b878-5899bcc5407e
+                postId: 21d9925a-0d8a-41ce-be08-dc3ba5612cf9
+                categoryId: 0402d19f-505d-469f-a6ec-015c90f025ab
+                createdAt: 2023-11-07T13:00:43.495Z
+                updatedAt: 2023-11-07T13:00:43.495Z
+                deletedAt: null
+    ResponsePostArray:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        count:
+          type: integer
+        data:
+          type: array
+          items:
+            properties:
+              id:
+                type: string
+              thumbnail:
+                type: string
+              status:
+                type: string
+                enum: ["Draft", "Published"]
+              title:
+                type: string
+              description:
+                type: string
+              slug:
+                type: string
+              createdAt:
+                type: string
+                format: date
+              updatedAt:
+                type: string
+                format: date
+              deletedAt:
+                type: string
+                format: date
+              Categories:
+                type: array
+                items:
+                  properties:
+                    id:
+                      type: string
+                    title:
+                      type: string
+                    createdAt:
+                      type: string
+                      format: date
+                    updatedAt:
+                      type: string
+                      format: date
+                    deletedAt:
+                      type: string
+                      format: date
+                    PostCategories:
+                      type: object
+                      properties:
+                        id:
+                          type: string
+                        postId:
+                          type: string
+                        categoryId:
+                          type: string
+                        createdAt:
+                          type: string
+                          format: date
+                        updatedAt:
+                          type: string
+                          format: date
+                        deletedAt:
+                          type: string
+                          format: date
+      example:
+        code: 201
+        message: 5 data sudah diterima
+        count: 5
+        data:
+          - id: ad0ba235-fa28-4207-b878-5899bcc5407e
+            thumbnail: null
+            status: Published
+            title: Lorem ipsum
+            description: description
+            slug: lorem-ipsum
+            createdAt: 2023-11-07T13:00:43.495Z
+            updatedAt: 2023-11-07T13:00:43.495Z
+            deletedAt: null
+            Categories:
+              - id: ad0ba235-fa28-4207-b878-5899bcc5407e
+                title: Lorem ipsum
+                createdAt: 2023-11-07T13:00:43.495Z
+                updatedAt: 2023-11-07T13:00:43.495Z
+                deletedAt: null
+                PostCategories:
+                  id: ad0ba235-fa28-4207-b878-5899bcc5407e
+                  postId: 21d9925a-0d8a-41ce-be08-dc3ba5612cf9
+                  categoryId: 0402d19f-505d-469f-a6ec-015c90f025ab
+                  createdAt: 2023-11-07T13:00:43.495Z
+                  updatedAt: 2023-11-07T13:00:43.495Z
+                  deletedAt: null
+tags:
+  name: User
+  description: The user API
+/post:
+  post:
+    summary: Create a new post
+    tags: [Post]
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Post"
+    security:
+      - bearerAuth: []
+    responses:
+      201:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResponsePost"
+      400:
+        description: Bad request
+  get:
+    summary: Show all posts
+    tags: [Post]
+    parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+      - in: query
+        name: title
+        type: string
+      - in: query
+        name: category
+        type: string
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResponsePostArray"
+/post/get-by-slug/{slug}:
+  get:
+    summary: Get the category by slug
+    tags: [Post]
+    parameters:
+      - in: path
+        name: slug
+        schema:
+          type: string
+        required: true
+        description: The category slug
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResponsePostWithCategories"
+      404:
+        description: Not found
+/post/{id}:
+  get:
+    summary: Get the category by id
+    tags: [Post]
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The category id
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResponsePostWithCategories"
+      404:
+        description: Not found
+  put:
+    summary: Update the category by the id
+    tags: [Post]
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The category id
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Post"
+    responses:
+      201:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResponsePost"
+      404:
+        description: Not found
+  delete:
+    summary: Remove the category by id
+    tags: [Post]
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The category id
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: integer
+                message:
+                  type: string
+              example:
+                code: 200
+                message: Data berhasil dihapus
+      404:
+        description: Not found
