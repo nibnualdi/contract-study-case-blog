@@ -6,7 +6,7 @@ type JwtCustomTypes = {
 } & JwtPayload;
 
 const creatorOnly = (req: Request, res: Response, next: NextFunction) => {
-  if (!req.headers.authorization) return;
+  if (!req.headers.authorization) throw "Izin dibutuhkan!!";
   const accessToken = req.headers.authorization.split(" ")[1];
   const privateKey: string = process.env.PRIVATE_KEY as string;
 
@@ -20,7 +20,7 @@ const creatorOnly = (req: Request, res: Response, next: NextFunction) => {
 };
 
 const superAdminOnly = (req: Request, res: Response, next: NextFunction) => {
-  if (!req.headers.authorization) return;
+  if (!req.headers.authorization) throw "Izin dibutuhkan!!";
   const accessToken = req.headers.authorization.split(" ")[1];
   const privateKey: string = process.env.PRIVATE_KEY as string;
 
