@@ -1,0 +1,311 @@
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      name: Authorization
+      description: "Bearer token to access these api endpoints"
+  schemas:
+    Category:
+      type: object
+      required:
+        - title
+      properties:
+        title:
+          type: string
+          description: the title
+      example:
+        title: Pertanian
+    UserWithAvatar:
+      type: object
+      properties:
+        fullName:
+          type: string
+          description: Your fullName
+        email:
+          type: string
+          description: Your email
+        newPassword:
+          type: string
+          description: Your password
+        confirmNewPassword:
+          type: string
+          description: Your password
+        avatar:
+          type: string
+          description: Your avatar get from file
+        role:
+          type: string
+          enum: ["Super Admin", "Creator"]
+          description: Your role
+        status:
+          type: string
+          enum: ["Active", "Suspend"]
+          description: Your status account
+      example:
+        fullName: Creator
+        email: creator@gmail.com
+        newPassword: Creator123
+        confirmNewPassword: Creator123
+        avatar: 575b1bba-1900-43af-95bb-a80e94797113
+        role: Creator
+        status: Active
+    ResponseCategory:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            title:
+              type: string
+            createdAt:
+              type: string
+              format: date
+            updatedAt:
+              type: string
+              format: date
+            deletedAt:
+              type: string
+              format: date
+      example:
+        code: 201
+        message: Data berhasil dibuat
+        data:
+          id: ad0ba235-fa28-4207-b878-5899bcc5407e
+          title: CrePertanianator
+          createdAt: 2023-11-07T13:00:43.495Z
+          updatedAt: 2023-11-07T13:00:43.495Z
+          deletedAt: null
+    ResponseUserWithAvatar:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            id:
+              type: string
+            fullName:
+              type: string
+            email:
+              type: string
+            role:
+              type: string
+              enum: ["Super Admin", "Creator"]
+            status:
+              type: string
+              enum: ["Active", "Suspend"]
+            avatar:
+              type: object
+              properties:
+                url:
+                  type: string
+                id:
+                  type: string
+                filename:
+                  type: string
+                type:
+                  type: string
+                path:
+                  type: string
+                updatedAt:
+                  type: string
+                  format: date
+                createdAt:
+                  type: string
+                  format: date
+            password:
+              type: string
+            createdAt:
+              type: string
+              format: date
+            updatedAt:
+              type: string
+              format: date
+            deletedAt:
+              type: string
+              format: date
+      example:
+        code: 201
+        message: Data berhasil dibuat
+        data:
+          id: ad0ba235-fa28-4207-b878-5899bcc5407e
+          fullName: Creator
+          email: creator@gmail.com
+          role: Creator
+          status: Active
+          avatar:
+            url: http://localhost:3000/uploads/images/1699363786133-screenshot_20231106_172210.png
+            id: 3e412587-c64c-4f34-96e4-049c68b5d52b
+            filename: 1699363786133-screenshot_20231106_172210.png
+            type: image
+            path: /uploads/images/1699363786133-screenshot_20231106_172210.png
+            updatedAt: 2023-11-07T13:29:46.151Z
+            createdAt: 2023-11-07T13:29:46.151Z
+          password: Creator123
+          createdAt: 2023-11-07T13:00:43.495Z
+          updatedAt: 2023-11-07T13:00:43.495Z
+          deletedAt: null
+    ResponseCategoryArray:
+      type: object
+      properties:
+        code:
+          type: integer
+        message:
+          type: string
+        count:
+          type: integer
+        data:
+          type: array
+          items:
+            properties:
+              id:
+                type: string
+              title:
+                type: string
+              createdAt:
+                type: string
+                format: date
+              updatedAt:
+                type: string
+                format: date
+              deletedAt:
+                type: string
+                format: date
+      example:
+        code: 201
+        message: 5 data sudah diterima
+        count: 5
+        data:
+          - id: ad0ba235-fa28-4207-b878-5899bcc5407e
+            title: Pertanian
+            createdAt: 2023-11-07T13:00:43.495Z
+            updatedAt: 2023-11-07T13:00:43.495Z
+            deletedAt: null
+tags:
+  name: Category
+  description: The category API
+/category:
+  post:
+    summary: Create a new category
+    tags: [Category]
+    requestBody:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Category"
+    security:
+      - bearerAuth: []
+    responses:
+      201:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResponseCategory"
+      400:
+        description: Bad request
+  get:
+    summary: Show all categories
+    tags: [Category]
+    parameters:
+      - in: query
+        name: page
+        type: integer
+        required: true
+      - in: query
+        name: pageSize
+        type: integer
+        required: true
+      - in: query
+        name: title
+        type: string
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResponseCategoryArray"
+/category/{id}:
+  get:
+    summary: Get the category by id
+    tags: [Category]
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The category id
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResponseCategory"
+      404:
+        description: Not found
+  put:
+    summary: Update the category by the id
+    tags: [Category]
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The category id
+    requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Category"
+    responses:
+      201:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ResponseCategory"
+      404:
+        description: Not found
+  delete:
+    summary: Remove the category by id
+    tags: [Category]
+    security:
+      - bearerAuth: []
+    parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+        description: The category id
+
+    responses:
+      200:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                code:
+                  type: integer
+                message:
+                  type: string
+              example:
+                code: 200
+                message: Data berhasil dihapus
+      404:
+        description: Not found
